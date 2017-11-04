@@ -10,7 +10,8 @@ var objectsCounts = [1, 6, 3, 6, 4];
 var tileSize = 6;
 var typeAmount = 4;
 var selectedType = 0;
-var selectedObj = "00";
+var selectedObj = "0001";
+var lastTex = [2,2];
 
 var board = {
     width: 5,
@@ -39,7 +40,7 @@ function Initialize() {
 
     parts.src = "Sprites/parts.png";
     SetObject(Math.floor(board.width / 2), Math.floor(board.height / 2))
-    selectedObj = "10";    
+    selectedObj = "1001";    
     SetType(1);    
     parts.onload = DrawBoard;
 }
@@ -68,16 +69,25 @@ function DrawBoard() {
                 ctx.stroke();
             }
             else { 
-                console.log(sec)
                 var r = board.tex[i][j][0];
                 var c = board.tex[i][j][1];
+                var rot = board.tex[i][j][2];
+                var sc = board.tex[i][j].substr(3, board.tex.length - 3);
                 var newDim = dim + board.margin * 4;
+                ctx.save();
+                if(i != Math.floor(board.width/2) || j != Math.floor(board.height/2)) {
+                    ctx.translate(sec * i + start - board.margin*2 + newDim/2,sec * j - board.margin*2  + newDim/2);
+                    ctx.rotate(90*rot*Math.PI/180);
+                    ctx.scale(sc,1);
+                    ctx.translate(-(sec * i + start - board.margin*2 + newDim/2),-(sec * j - board.margin*2 + newDim/2));
+                }                
                 ctx.mozImageSmoothingEnabled = false;
                 ctx.webkitImageSmoothingEnabled = false;
                 ctx.msImageSmoothingEnabled = false;
                 ctx.imageSmoothingEnabled = false;
                 ctx.drawImage(parts, c*tileSize, r*tileSize, tileSize, tileSize,
                      sec * i + start - board.margin*2,sec * j - board.margin*2,newDim,newDim);
+                ctx.restore();
             }               
         }
     }
@@ -110,7 +120,10 @@ function FindCellTouched(x, y) {
         for(var j = 0; j < board.height; j++) {  
             var rx = sec * i + start;
             var ry = sec * j;
-            if(x > rx && x < rx + dim && y > ry && y < ry + dim && board.tex[i][j] == "o") {
+            if(x > rx && x < rx + dim && y > ry && y < ry + dim && board.tex[i][j] != "" && 
+                (i != Math.floor(board.width/2) || j != Math.floor(board.height/2))) {
+                lastTex[0] = i;
+                lastTex[1] = j;
                 return [i,j];
             }
         }
@@ -140,28 +153,54 @@ function CreatePartGUI() {
         var button = document.createElement('button');
         button.id = i;
         button.onclick = function () {
-            selectedObj = selectedType + "" + this.id;
+            selectedObj = selectedType + "" + this.id + "0" + "-1";
         };
         buttonContainer.appendChild(button);
         
         var image = document.createElement('img');
         image.style.width = button.offsetWidth*6+ "px";
         image.style.height = button.offsetHeight*5 + "px";
-        image.style.left = -button.offsetHeight*(i) +"px"; 
-        image.style.top = -button.offsetWidth*(selectedType)+"px";
+        image.style.left = -button.offsetWidth*(i) +"px"; 
+        image.style.top = -button.offsetHeight*(selectedType) +"px";
         image.style.position = "absolute";
         image.src = "Sprites/parts.png";
         button.appendChild(image);
     }
 }
 
+//Rotates selected object
+function RotateObj() {
+    if(lastTex[0] != Math.floor(board.width/2) || lastTex[1] != Math.floor(board.height/2)){
+        console.log(Math.floor(board.tex.width/2))
+        var newRot = selectedObj[2];
+        if(newRot < 3) {
+            newRot++;
+        }
+        else {
+            newRot = 0;
+        }  
+        selectedObj = selectedObj.substr(0,2) + newRot + selectedObj.substr(3, selectedObj.length - 3);
+        SetObject(lastTex[0], lastTex[1]);
+        DrawBoard();
+    }
+}
+
+// Mirror
+function MirrorObj() {
+    if(lastTex[0] != Math.floor(board.width/2) || lastTex[1] != Math.floor(board.height/2)){
+        var mirror = selectedObj.substr(3, selectedObj.length - 3);
+        mirror *= -1;
+        selectedObj = selectedObj.substr(0,3) + mirror;
+        SetObject(lastTex[0], lastTex[1]);
+        DrawBoard();
+    }
+}
 
 
 
 
 window.onload = function(){
     Initialize();
-  //  DrawBoard();
 };
 
 canvas.addEventListener('click', function(event) {
@@ -169,6 +208,7 @@ canvas.addEventListener('click', function(event) {
     var y = event.pageY - canvas.offsetTop;
     
     var cell = FindCellTouched(x, y);
+    console.log(cell)
     if(cell != null)
         SetObject(cell[0], cell[1]);
     DrawBoard();
