@@ -31,5 +31,50 @@
 
 
 <script src="JS/ShipBuilder.js"></script>
+<script src="/socket.io/socket.io.js"></script>
+<script>
+    (function(){
+        var socket = io();
+        var keys = [];
+        var inputSeq = 0;
+        var controllerCode = "";
+
+        function update(){
+            handleInput()
+            window.requestAnimationFrame(update);
+        }
+        window.onload = function(){
+            socket.emit("createController");
+        }
+
+        socket.on('connected', function(uid){
+            console.log(uid);
+            controllerCode = uid;
+            update();
+        });
+
+        function handleInput(){
+            var input = [];
+            if(keys[68]){
+                input.push("r");
+            }
+            if(keys[65]){
+                input.push("l");
+            }
+            //console.log(input);
+            if(input.length && controllerCode != ""){
+                inputSeq += 1;
+                socket.emit("receiveInput", controllerCode, input, new Date().getTime(), inputSeq);
+            }
+        }
+        window.onkeydown = function(e){
+            console.log(e);
+            keys[e.keyCode] = true; 
+        }
+        window.onkeyup = function(e){
+            keys[e.keyCode] = false;
+        }
+    })();
+</script>
 </body>
 </html>

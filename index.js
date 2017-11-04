@@ -1,5 +1,8 @@
+global.window = global.document = global;
+
+
 var frame_time = 60/1000; // run the local game at 16ms/ 60hz
-if('undefined' != typeof(global)) frame_time = 45; //on server we run at 45ms, 22hz
+if('undefined' != typeof(global)) frame_time = 16; //on server we run at 45ms, 22hz
 
 ( function () {
 
@@ -29,7 +32,7 @@ if('undefined' != typeof(global)) frame_time = 45; //on server we run at 45ms, 2
 
 var app = require('express')();
 var http = require('http').Server(app);
-var io = require('socket.io')(http);
+var io = require('socket.io').listen(http);
 
 
 GameState = function(){
@@ -37,6 +40,7 @@ GameState = function(){
     this.players = [];
     this.bullets = [];
     this.uids = [];
+    this.numPlayers = 0;
 
     this.serverTime= 0;
     this.lastState= {};
@@ -73,13 +77,15 @@ GameState.prototype.Update = function(t){
         players: this.players,
         t: this.server_time,
     }
-
-    for(var i = 0; i<this.players.length; i++){
-        this.players[i].socket.emit('onserverupdate', this.lastState);
-    }
+    //console.log("updating");
+    this.UpdatePhysics();
+    //for(var i = 0; i<this.players.length; i++){
+    io.sockets.emit('onserverupdate', this.lastState);
+    //}
     
     this.updateid = window.requestAnimationFrame(this.Update.bind(this), this.viewport);
 }
+
 GameState.prototype.CreateTimer = function(){
     setInterval(function(){
         this._dt = new Date().getTime() - this._dte;
@@ -87,6 +93,8 @@ GameState.prototype.CreateTimer = function(){
         this.localTime += this._dt/1000.0;
     }.bind(this), 4);
 }
+
+
 GameState.prototype.UpdatePhysics= function(){
     for(var i = 0; i<this.players.length; i++){
         this.players[i].oldState.pos = this.Pos(this.players[i].pos);
@@ -98,6 +106,7 @@ GameState.prototype.UpdatePhysics= function(){
         this.players[i].inputs = [];
     }
 }
+
 GameState.prototype.Pos = function(a){return {x:a.x, y:a.y}; };
 GameState.prototype.vAdd = function(a, b){return {x: a.x+b.x, y:a.y + b.y};};
 
@@ -123,17 +132,18 @@ GameState.prototype.ProcessInput = function(player){
         }
     }
 
-    //var resulting_vector = 
+    var resultingVector = {
+        x: rotationDir*10,
+        y: 0
+    }
     if(player.inputs.length){
         player.lastInputTime = player.inputs[ic-1].time;
         player.lastInputSeq = player.inputs[ic-1].seq;
     }
-    //return resulting_vector;
+    return resultingVector;
 }
 
-GamePlayer = function(game, uid, socket){
-    this.socket = socket
-    this.game = game;
+GamePlayer = function(uid){
     this.uid = uid;
 
     this.pos = {x:0, y:0};
@@ -152,10 +162,13 @@ app.get('/', function(req, res){
 app.get('/controller', function(req, res){
     res.sendFile(__dirname+'/www/shipBuilder.html');
 })
-
+app.get('/screen/', function(req, res){
+    res.sendFile(__dirname+"/www/screen.html");
+})
 
 var game = new GameState();
-game.Update(new Date().getTime());
+
+
 io.on('connection', function(socket){
     console.log('a user connected')
     //var uid = game.GenerateUid();
@@ -163,6 +176,13 @@ io.on('connection', function(socket){
 
     socket.on('disconnect', function(){
         console.log('user disconnected');
+        if(socket.uid != undefined){
+            game.players = game.players.filter(function(pl){
+                return pl.uid !== socket.uid;
+            });
+            game.numPlayers--;
+            io.sockets.emit("enplayerdisconnected", socket.uid);
+        }
     });
 
     /**
@@ -172,23 +192,39 @@ io.on('connection', function(socket){
         var uid = game.GenerateUid();
         game.uids.push(uid);
 
-        var player = new GamePlayer(game, uid, socket);
-        //game.Update(new Date().getTime());
+        console.log("creating controller with uid "+uid);
+        socket.uid = uid;
 
+        var player = new GamePlayer(uid);
+        //game.Update(new Date().getTime());
+        game.players.push(player);
+        game.numPlayers++;
+        console.log(game.numPlayers+" players have joined");
+        if(game.numPlayers == 1){
+            console.log("starting game");
+            game.Update(new Date().getTime());
+        }
         socket.emit("connected", uid);
-        //create player with uid
     });
+
+
     socket.on('receiveInput', function(controllerCode, input, inputTime, inputSeq){
         var player = game.players.find(function(p){
+            //console.log(p.uid);
             return p.uid == controllerCode;
         });
-
-        player.inputs.push({inputs:input, time:inputTime, seq:inputSeq});
+        console.log("receiving input from " +controllerCode);
+        if(player != undefined){
+            player.inputs.push({inputs:input, time:inputTime, seq:inputSeq});
+        }
     });
 
     /**
      * Screen Events
      */
+    socket.on('pairScreen', function(){
+        console.log("a screen has been paired");
+    })
 
 });
 
