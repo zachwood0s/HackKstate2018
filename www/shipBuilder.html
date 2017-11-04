@@ -11,10 +11,17 @@
 </canvas>
 
 <div id = "TypeSelection" class = "SideMenu">
-    <img src="img.jpg" class = "ImageSelection" id = "Engine">
-    <img src="img.jpg" class = "ImageSelection" id = "Fuel">
-    <img src="img.jpg" class = "ImageSelection" id = "Weapons">
-    <img src="img.jpg" class = "ImageSelection" id = "Hull">
+    <center>
+    <button onclick="SetType(0)"> 
+        <img src="Sprites/placeholdership.png" id = "Engine">
+    </button>
+    <button onclick="SetType(1)"> 
+        <img src="Sprites/placeholdership.png" id = "Hull">
+    </button>
+    <button onclick="SetType(2)"> 
+        <img src="Sprites/placeholdership.png" id = "Weapons">
+    </button>
+    </center>
 </div>
 
 <script src="JS/ShipBuilder.js"></script>
