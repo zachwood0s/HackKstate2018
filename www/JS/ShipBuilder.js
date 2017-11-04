@@ -1,11 +1,16 @@
 var canvas = document.getElementById("canvas");
-console.log(canvas);
 var ctx = canvas.getContext('2d');
 
-var objects = new Array();
-var typeAmount = 3;
+
+var xp = 0;
+var xpI = 100;
+
+var parts = new Image();
+var objectsCounts = [1, 6, 3, 6, 4];
+var tileSize = 6;
+var typeAmount = 4;
 var selectedType = 0;
-var selectedObj = "placeholdership.png";
+var selectedObj = "00";
 
 var board = {
     width: 5,
@@ -32,45 +37,47 @@ function Initialize() {
         }
     }
 
-    // Initialize objects array
-    for(var i = 0; i < typeAmount; i++) {
-        // 0 - Engine / 1 - Hull / 2 - Weapons
-        objects[i] = new Array();
-
-        //Temp
-        objects[i][0] = "placeholdership.png";
-    } 
-    
-    // Current object
-    selectedObj = objects[0][0];
+    parts.src = "Sprites/parts.png";
     SetObject(Math.floor(board.width / 2), Math.floor(board.height / 2))
-    SetType(0);    
+    selectedObj = "10";    
+    SetType(1);    
+    parts.onload = DrawBoard;
 }
 
 // Draw the building board
 function DrawBoard() {
+    
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
     var sec = canvas.height / board.height;
     var start = (canvas.width - sec * 4) / 4;
     var dim = sec - board.margin * board.height;
     for(var i = 0; i < board.width; i++) {
         for(var j = 0; j < board.height; j++) {  
             if(board.tex[i][j] == "") {
+                ctx.beginPath();
                 ctx.strokeStyle = board.openC;
                 ctx.lineWidth = board.lineWidth;
                 ctx.rect(sec * i + start,sec * j,dim,dim);
                 ctx.stroke();
             }    
             else if(board.tex[i][j] == "o") {
+                ctx.beginPath();
                 ctx.strokeStyle = board.closedC;
                 ctx.lineWidth = board.lineWidth;
                 ctx.rect(sec * i + start,sec * j,dim,dim);
                 ctx.stroke();
             }
             else { 
-                var img = new Image();
+                console.log(sec)
+                var r = board.tex[i][j][0];
+                var c = board.tex[i][j][1];
                 var newDim = dim + board.margin * 4;
-                img.src ="Sprites/" + board.tex[i][j];
-                ctx.drawImage(img, sec * i + start - board.margin*2,sec * j - board.margin*2,newDim,newDim);
+                ctx.mozImageSmoothingEnabled = false;
+                ctx.webkitImageSmoothingEnabled = false;
+                ctx.msImageSmoothingEnabled = false;
+                ctx.imageSmoothingEnabled = false;
+                ctx.drawImage(parts, c*tileSize, r*tileSize, tileSize, tileSize,
+                     sec * i + start - board.margin*2,sec * j - board.margin*2,newDim,newDim);
             }               
         }
     }
@@ -113,7 +120,7 @@ function FindCellTouched(x, y) {
 // Sets the selected type to type selected in gui
 function SetType(type) {
     selectedType = type;
-    ResetPartsGUI();
+    ResetPartsGUI();    
     CreatePartGUI();
 }
 
@@ -127,45 +134,41 @@ function ResetPartsGUI() {
 
 // Creates the parts GUI
 function CreatePartGUI() {
-    for(var i = 0; i < objects[selectedType].length; i++) {
+    for(var i = 0; i < objectsCounts[selectedType]; i++) {
         var buttonContainer = document.getElementById('PartSelection');
 
         var button = document.createElement('button');
-        button.id = 'button1';
+        button.id = i;
         button.onclick = function () {
-            selectedObj = objects[selectedType][button.id[button.id.length - 1]];
+            selectedObj = selectedType + "" + this.id;
         };
         buttonContainer.appendChild(button);
         
         var image = document.createElement('img');
-        image.setAttribute('scr', "Sprites/" + objects[selectedType][button.id[button.id.length - 1]]);
+        image.style.width = button.offsetWidth*6+ "px";
+        image.style.height = button.offsetHeight*5 + "px";
+        image.style.left = -button.offsetHeight*(i) +"px"; 
+        image.style.top = -button.offsetWidth*(selectedType)+"px";
+        image.style.position = "absolute";
+        image.src = "Sprites/parts.png";
         button.appendChild(image);
     }
 }
 
 
 
-Initialize();
-DrawBoard();
 
-function Update() {
-    
-    //console.log(selectedObj);
 
-    
-    requestAnimationFrame(Update);
-}
-
-Update();
+window.onload = function(){
+    Initialize();
+  //  DrawBoard();
+};
 
 canvas.addEventListener('click', function(event) {
     var x = event.pageX - canvas.offsetLeft;
     var y = event.pageY - canvas.offsetTop;
-
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
     
     var cell = FindCellTouched(x, y);
-    console.log(board.tex);
     if(cell != null)
         SetObject(cell[0], cell[1]);
     DrawBoard();
