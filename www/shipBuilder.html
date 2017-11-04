@@ -7,23 +7,28 @@
 <div id = "PartSelection" class = "SideMenu">
 </div>
 
+<center>
 <canvas id="canvas">
 </canvas>
+</center>
 
 <div id = "TypeSelection" class = "SideMenu">
-    <button onclick="SetType(4)"> 
-        <img src="Sprites/placeholdership.png" id = "Engine">
+    <button onclick="SetType(4)" class="ButtonTypes"> 
+        <img src="Sprites/placeholdership.png" id = "Engine" class="TypeImg">
     </button>
-    <button onclick="SetType(1)"> 
-        <img src="Sprites/placeholdership.png" id = "Hull">
+    <button onclick="SetType(1)" class="ButtonTypes"> 
+        <img src="Sprites/placeholdership.png" id = "Hull" class="TypeImg">
     </button>
-    <button onclick="SetType(3)"> 
-        <img src="Sprites/placeholdership.png" id = "Weapons">
+    <button onclick="SetType(3)" class="ButtonTypes"> 
+        <img src="Sprites/placeholdership.png" id = "Weapons" class="TypeImg">
     </button>
-    <button onclick="SetType(2)"> 
-        <img src="Sprites/placeholdership.png" id = "Wings">
+    <button onclick="SetType(2)" class="ButtonTypes"> 
+        <img src="Sprites/placeholdership.png" id = "Wings" class="TypeImg">
     </button>
 </div>
+
+<div id = "Rbuttons" class = "SideMenu"></div>
+
 
 <script src="JS/ShipBuilder.js"></script>
 </body>
