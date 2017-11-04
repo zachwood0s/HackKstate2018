@@ -1,0 +1,22 @@
+.SideMenu {
+    width: 19%;
+    height: 98vh;
+    border-style: solid;
+    border-width: 4px;
+    border-color: blue;
+}
+
+.ImageSelection {
+    border-style: solid;
+    border-width: 2px;
+    border-color: white;
+}
+
+#PartSelection {
+    float: left;
+}
+
+#TypeSelection {
+    float: right;
+}
+
