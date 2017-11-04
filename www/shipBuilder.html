@@ -1,42 +1,53 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" media="all" href="/CSS/ShipBuilder.css" />
+    <link rel="stylesheet" type="text/css" media="all" href="/CSS/Controller.css" />       
+</head>
 <body>
-<link rel="stylesheet" type="text/css" href="CSS/ShipBuilder.css" />
 
 
-<div id = "PartSelection" class = "SideMenu">
+<div id = "GUI" style = "display: none">
+    <div id = "PartSelection" class = "SideMenu">
+    </div>
+
+    <center>
+    <canvas id="canvas">
+    </canvas>
+    </center>
+
+    <div id = "TypeSelection" class = "SideMenu">
+        <button onclick="SetType(4)" class="ButtonTypes"> 
+            <img src="Sprites/Buttons/ThrusterButton.png" id = "Engine" class="TypeImg">
+        </button>
+        <button onclick="SetType(1)" class="ButtonTypes"> 
+            <img src="Sprites/Buttons/HullButton.png" id = "Hull" class="TypeImg">
+        </button>
+        <button onclick="SetType(3)" class="ButtonTypes"> 
+            <img src="Sprites/Buttons/WeaponsButton.png" id = "Weapons" class="TypeImg">
+        </button>
+        <button onclick="SetType(2)" class="ButtonTypes"> 
+            <img src="Sprites/Buttons/WingButton.png" id = "Wings" class="TypeImg">
+        </button>
+    </div>
+
+    <div id = "Rbuttons" class = "SideMenu">
+        <button onclick="RotateObj()" class="ButtonTypes"> 
+            <img src="Sprites/Buttons/ThrusterButton.png" id = "Rotate" class="TypeImg">
+        </button>
+        <button onclick="MirrorObj()" class="ButtonTypes"> 
+            <img src="Sprites/Buttons/ThrusterButton.png" id = "Mirror" class="TypeImg">
+        </button>
+    </div>
 </div>
 
-<center>
-<canvas id="canvas">
-</canvas>
-</center>
-
-<div id = "TypeSelection" class = "SideMenu">
-    <button onclick="SetType(4)" class="ButtonTypes"> 
-        <img src="Sprites/ThrusterButton.png" id = "Engine" class="TypeImg">
-    </button>
-    <button onclick="SetType(1)" class="ButtonTypes"> 
-        <img src="Sprites/HullButton.png" id = "Hull" class="TypeImg">
-    </button>
-    <button onclick="SetType(3)" class="ButtonTypes"> 
-        <img src="Sprites/WeaponsButton.png" id = "Weapons" class="TypeImg">
-    </button>
-    <button onclick="SetType(2)" class="ButtonTypes"> 
-        <img src="Sprites/WingButton.png" id = "Wings" class="TypeImg">
-    </button>
+<div id = "Controller" style = "display: block">
 </div>
-
-<div id = "Rbuttons" class = "SideMenu">
-    <button onclick="RotateObj()" class="ButtonTypes"> 
-        <img src="Sprites/ThrusterButton.png" id = "Rotate" class="TypeImg">
-    </button>
-    <button onclick="MirrorObj()" class="ButtonTypes"> 
-        <img src="Sprites/ThrusterButton.png" id = "Mirror" class="TypeImg">
-    </button>
-</div>
-
 
 <script src="JS/ShipBuilder.js"></script>
+<script src="JS/Controller.js"></script>
 </body>
 </html>

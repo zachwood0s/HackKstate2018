@@ -41,7 +41,7 @@ function Initialize() {
     parts.src = "Sprites/parts.png";
     SetObject(Math.floor(board.width / 2), Math.floor(board.height / 2))
     selectedObj = "1001";    
-    SetType(1);    
+    SetType(4);    
     parts.onload = DrawBoard;
 }
 
@@ -213,4 +213,3 @@ canvas.addEventListener('click', function(event) {
         SetObject(cell[0], cell[1]);
     DrawBoard();
 }, false);
-
