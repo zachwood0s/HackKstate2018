@@ -1,15 +1,13 @@
 <!DOCTYPE html>
 <html>
-<html lang="en">
 <head>
     <meta charset="UTF-8">
     <title></title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" type="text/css" media="all" href="../CSS/ShipBuilder.css" />
-    <link rel="stylesheet" type="text/css" media="all" href="../CSS/Controller.css" />       
+    <link rel="stylesheet" type="text/css" media="all" href="CSS/ShipBuilder.css" />
+    <link rel="stylesheet" type="text/css" media="all" href="CSS/Controller.css" />       
 </head>
 <body>
-
 
 <div id = "GUI" style = "display: none">
     <div id = "PartSelection" class = "SideMenu">
@@ -46,9 +44,12 @@
 </div>
 
 <div id = "Controller" style = "display: block">
+        <div class = "cont" onclick="Go()" style="width: 50%; height: 100%; float: left;"></div> 
+        <div class = "cont" onclick="Fire()" style="width: 50%; height: 100%; float: right;"></div> 
 </div>
 
 <script src="JS/ShipBuilder.js"></script>
+<script src="JS/Controller.js"></script>
 <script src="/socket.io/socket.io.js"></script>
 <script>
     (function(){
