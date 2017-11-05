@@ -74,3 +74,11 @@ function CreateShip(pSize, tex){
     }
     return ship;
 }
+
+module.exports = {
+    Object: Object,
+    Part: Part,
+    ShipBlue: ShipBlue,
+    CreateObjects: CreateObjects,
+    CreateShip: CreateShip
+}
