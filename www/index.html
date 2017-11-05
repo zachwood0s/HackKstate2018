@@ -1,0 +1,39 @@
+<!doctype html>
+<html>
+    <head>
+        <title>Game Entry</title>
+        <script src="/socket.io/socket.io.js"></script>
+        <script>
+            var socket = io();
+        </script>
+        <style>
+            .centered{
+                position: absolute;
+                top:50%;
+                left:50%;
+                transform: translate(-50%, -50%);
+            }
+
+            #mainSelection{
+                width:420px;
+                height:200px;
+            }
+
+            #mainSelection .button{
+                width:180px;
+                height:180px;
+                margin:10px;
+                float: left;
+                box-shadow:1px 1px 1px 1px #000000;
+                cursor:pointer;
+            }
+
+        </style>
+    </head>
+    <body>
+        <div class="centered" id="mainSelection">
+            <a href="/screen"class="button" id="screenButton">Screen</a>
+            <a href="/controller" class="button" id="controllerButton">Controller</a>
+        </div>
+    </body>
+</html>

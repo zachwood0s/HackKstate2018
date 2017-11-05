@@ -1,0 +1,57 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <canvas id="gamecanvas"></canvas>
+</body>
+<script src="/socket.io/socket.io.js"></script>
+<script>
+    
+    (function(){
+        var socket = io();
+
+        var canvas = document.getElementById("gamecanvas");
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+        canvas.style.width = window.innerHeight+"px";
+        canvas.style.height = window.innerWidth +"px";
+        var ctx = canvas.getContext("2d");
+        var gameState = function(){
+
+            this.players = [];
+            this.bullets = [];
+        }
+        window.onload=function(){
+            socket.emit("pairScreen");
+        }
+        socket.on("onserverupdate", function(data){
+            //console.log("hi");
+            gameState.players = data.players;
+            gameState.bullets = data.bullets;
+            render();
+        });
+        socket.on("onplayerdisconnected", function(uid){
+            console.log("removing players");
+            gameState.players = gameState.players.filter(function(p){
+                console.log(p);
+                return p.uid !== uid;
+            })
+        })
+
+        function render(){
+            //console.log("render");
+            ctx.clearRect(0,0, canvas.width, canvas.height);
+            for(var i = 0; i<gameState.players.length; i++){
+                ctx.fillRect(gameState.players[i].pos.x, gameState.players[i].pos.y, 10, 10);
+            }
+        }
+        
+
+
+    })();
+</script>
+</html>
