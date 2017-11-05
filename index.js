@@ -154,8 +154,10 @@ GamePlayer = function(uid){
 
     this.inputs = [];
 }
+//chage
 
-app.use(express.static(__dirname+'/www'))
+ app.use(express.static(__dirname+'/www'))
+
 app.get('/', function(req, res){
     res.sendFile(__dirname+'/www/index.html');
 });
