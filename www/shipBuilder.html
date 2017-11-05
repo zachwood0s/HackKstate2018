@@ -52,15 +52,15 @@
 </div>
 
 <div id = "Controller" style = "display: none">
-        <div class = "cont" onclick="Go()" style="width: 50%; height: 100%; float: left;"></div> 
-        <div class = "cont" onclick="Fire()" style="width: 50%; height: 100%; float: right;"></div> 
+        <div class = "cont" ontouchstart="StartGo()" ontouchend="EndGo()"  style="width: 50%; height: 100%; float: left;"></div> 
+        <div class = "cont" ontouchstart="StartFire()" ontouchend="EndFire()" style="width: 50%; height: 100%; float: right;"></div> 
 </div>
 
 <script src="/socket.io/socket.io.js"></script>
 <script>
 </script>
-<script src="JS/ShipBuilder.js"></script>
 <script src="JS/Controller.js"></script>
+<script src="JS/ShipBuilder.js"></script>
 <script src="JS/CreateShip.js"></script>
 </body>
 </html>

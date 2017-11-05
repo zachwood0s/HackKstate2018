@@ -1,4 +1,3 @@
-(function(){
   var socket = io();
   var keys = [];
   var inputSeq = 0;
@@ -26,7 +25,7 @@
           input.firing = true;
       }
       if(boosting){
-          input.firing = true;
+          input.boosting = true;
       }
       input.rotation = rotation;
 
@@ -61,13 +60,18 @@
         element.msRequestFullscreen();
       }
   }
-
-  function Go() {
-      alert("go");
+  function StartGo(){
+    boosting = true;
+    console.log("started touch");
+  }
+  function EndGo(){
+    boosting = false;
+    console.log("end touch");
   }
 
-  function Fire() {
-      alert("fire")
+  function StartFire(){
+    firing = true;
   }
-
-})();
+  function EndFire(){
+    firing = false;
+  }

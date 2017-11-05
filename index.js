@@ -119,15 +119,23 @@ GameState.prototype.ProcessInput = function(player){
 
             var input = player.inputs[i].inputs;
 
-            var c = input.length;
-            for(var j = 0; j<c; j++){
-                var key = input[i];
-                if(key=='l'){
-                    rotationDir-=1;
-                }
-                else if(key=='r'){
-                    rotationDir+=1;
-                }
+            var rotation=input.rotation;
+            var firing = input.firing;
+            var boosting = input.boosting;
+
+            //Apply rotation;
+            if(rotation != 0){
+                console.log(player.uid+"Rotation: "+rotation);
+            }
+
+            //Create bullets out of ship;
+            if(firing){
+                console.log(player.uid+"Firing: "+firing);
+            }
+
+            //Apply move force;
+            if(boosting){
+                console.log(player.uid+"Boosting: "+boosting);
             }
         }
     }
@@ -216,7 +224,7 @@ io.on('connection', function(socket){
             //console.log(p.uid);
             return p.uid == controllerCode;
         });
-       // console.log("receiving input from " +controllerCode);
+       //console.log("receiving input from " +controllerCode);
         if(player != undefined){
             player.inputs.push({inputs:input, time:inputTime, seq:inputSeq});
         }
