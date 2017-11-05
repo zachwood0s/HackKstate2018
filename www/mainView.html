@@ -23,16 +23,36 @@
 
     var app = new PIXI.Application(400, 400, {backgroundColor : 0x1099bb});
       document.body.appendChild(app.view);
-    var shipTexture = PIXI.Texture.fromImage('Sprites/placeholdership.png');
+    //var shipTexture = PIXI.Texture.fromImage('Sprites/placeholdership.png');
+
+    var spriteSheetImage = PIXI.BaseTexture.fromImage("Sprites/parts.png");
+    var allTextures = [];
+    for(var curImgCol = 0; curImgCol < 6; curImgCol++){
+      //allTextures[curImgCol] = [];
+      allTextures.push(new Array());
+      for(var curImgRow = 0; curImgRow < 5; curImgRow++){
+        var rect = new PIXI.Rectangle((curImgCol*6), (curImgRow*6), 6, 6);
+        allTextures[curImgCol].push(new PIXI.Texture(spriteSheetImage, rect));
+      }
+    }
+    console.log(allTextures);
 
     engine = Engine.create();
     world = engine.world;
 
     engine.world.gravity.y = 0;
 
-    things.push(new ship(200, 200, shipTexture));
-    //this.obst = new ship(300, 200, shipTexture);
-    //obst.show();
+    things.push(new ship(200, 200, allTextures[0][0]));
+
+    var rect = Bodies.rectangle(100,100,50,50, {isStatic: true});
+    World.add(world, rect);
+
+    var graphics = new PIXI.Graphics();
+    graphics.beginFill(0x000000);
+    graphics.drawRect(75,75,50,50);
+    graphics.endFill();
+    app.stage.addChild(graphics);
+
     Engine.run(engine);
 
 
