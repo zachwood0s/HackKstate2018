@@ -42,10 +42,10 @@
             <img src="Sprites/Buttons/MirrorButton.png" id = "Mirror" class="TypeImg">
         </button>
         <button onclick = "Delete()" class="ButtonTypes" id="Delete">
-            <img src="Sprites/buttons/DeleteButton.png" class="TypeImg"> 
+            <img src="Sprites/Buttons/DeleteButton.png" class="TypeImg"> 
         </button>
         <button onclick = "Confirm()" class="ButtonTypes" id="Confirm">
-            <img src="Sprites/buttons/ReadyButton.png" class="TypeImg"> 
+            <img src="Sprites/Buttons/ReadyButton.png" class="TypeImg"> 
         </button>
     </div>
 </div>
@@ -55,53 +55,11 @@
         <div class = "cont" onclick="Fire()" style="width: 50%; height: 100%; float: right;"></div> 
 </div>
 
+<script src="/socket.io/socket.io.js"></script>
+<script>
+</script>
 <script src="JS/ShipBuilder.js"></script>
 <script src="JS/Controller.js"></script>
 <script src="JS/CreateShip.js"></script>
-<script src="/socket.io/socket.io.js"></script>
-<script>
-    (function(){
-        var socket = io();
-        var keys = [];
-        var inputSeq = 0;
-        var controllerCode = "";
-
-        function update(){
-            handleInput()
-            window.requestAnimationFrame(update);
-        }
-        window.onload = function(){
-            socket.emit("createController");
-        }
-
-        socket.on('connected', function(uid){
-            console.log(uid);
-            controllerCode = uid;
-            update();
-        });
-
-        function handleInput(){
-            var input = [];
-            if(keys[68]){
-                input.push("r");
-            }
-            if(keys[65]){
-                input.push("l");
-            }
-            //console.log(input);
-            if(input.length && controllerCode != ""){
-                inputSeq += 1;
-                socket.emit("receiveInput", controllerCode, input, new Date().getTime(), inputSeq);
-            }
-        }
-        window.onkeydown = function(e){
-            console.log(e);
-            keys[e.keyCode] = true; 
-        }
-        window.onkeyup = function(e){
-            keys[e.keyCode] = false;
-        }
-    })();
-</script>
 </body>
 </html>

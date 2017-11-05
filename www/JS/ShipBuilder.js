@@ -209,10 +209,6 @@ function Confirm() {
     document.getElementById('Controller').style.display = "block";
 }
 
-window.onload = function(){
-    Initialize();
-};
-
 canvas.addEventListener('click', function(event) {
     var x = event.pageX - canvas.offsetLeft;
     var y = event.pageY - canvas.offsetTop;

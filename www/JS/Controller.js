@@ -1,32 +1,73 @@
-window.addEventListener("devicemotion", handleMotionEvent, true);
+(function(){
+  var socket = io();
+  var keys = [];
+  var inputSeq = 0;
+  var controllerCode = "";
+  var firing = false;
+  var boosting =false;
+  var rotation = 0;
+  function update(){
+      handleInput()
+      window.requestAnimationFrame(update);
+  }
+  window.onload = function(){
+      socket.emit("createController");
+  }
 
-function handleMotionEvent() {
-    var y = event.accelerationIncludingGravity.y;
-    y = y/2;
-    if(y > 1)
-        y = 1;
-    else if(y < -1)
-        y = -1;
-    y = Math.round(y *10) /10;
-}
+  socket.on('connected', function(uid){
+      console.log(uid);
+      controllerCode = uid;
+      update();
+  });
 
-// Find the right method, call on correct element
-function launchIntoFullscreen(element) {
-    if(element.requestFullscreen) {
-      element.requestFullscreen();
-    } else if(element.mozRequestFullScreen) {
-      element.mozRequestFullScreen();
-    } else if(element.webkitRequestFullscreen) {
-      element.webkitRequestFullscreen();
-    } else if(element.msRequestFullscreen) {
-      element.msRequestFullscreen();
-    }
-}
+  function handleInput(){
+      var input = {}; 
+      if(firing){
+          input.firing = true;
+      }
+      if(boosting){
+          input.firing = true;
+      }
+      input.rotation = rotation;
 
-function Go() {
-    alert("go");
-}
+      //console.log(input);
+      if(input && controllerCode != ""){
+          inputSeq += 1;
+          socket.emit("receiveInput", controllerCode, input, new Date().getTime(), inputSeq);
+      }
+  }
+  window.addEventListener("devicemotion", handleMotionEvent, true);
 
-function Fire() {
-    alert("fire")
-}
+  function handleMotionEvent() {
+      var y = event.accelerationIncludingGravity.y;
+      y = y/2;
+      if(y > 1)
+          y = 1;
+      else if(y < -1)
+          y = -1;
+      y = Math.round(y *10) /10;
+      rotation = y;
+  }
+
+  // Find the right method, call on correct element
+  function launchIntoFullscreen(element) {
+      if(element.requestFullscreen) {
+        element.requestFullscreen();
+      } else if(element.mozRequestFullScreen) {
+        element.mozRequestFullScreen();
+      } else if(element.webkitRequestFullscreen) {
+        element.webkitRequestFullscreen();
+      } else if(element.msRequestFullscreen) {
+        element.msRequestFullscreen();
+      }
+  }
+
+  function Go() {
+      alert("go");
+  }
+
+  function Fire() {
+      alert("fire")
+  }
+
+})();
