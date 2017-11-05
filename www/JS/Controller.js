@@ -5,6 +5,8 @@ function handleMotionEvent() {
     y = y/2;
     if(y > 1)
         y = 1;
+    else if(y < -1)
+        y = -1;
     y = Math.round(y *10) /10;
 }
 
@@ -23,10 +25,8 @@ function launchIntoFullscreen(element) {
 
 function Go() {
     alert("go");
-    launchIntoFullscreen(document.documentElement);
 }
 
 function Fire() {
     alert("fire")
-    launchIntoFullscreen(document.documentElement);
 }
