@@ -100,7 +100,7 @@ img {
     position: absolute;
     width:30px;
     height:10px;
-    top:55%;
+    top:50%;
     left:0;
 }
 #Rbuttons:after{
@@ -109,5 +109,8 @@ img {
 #Delete{
     width:30%;
     margin-top:5px;
+}
+#Confirm{
+    margin-top:0px;
 }
 

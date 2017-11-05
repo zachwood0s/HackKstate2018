@@ -212,7 +212,6 @@ function Confirm() {
 window.onload = function(){
     Initialize();
 };
-Initialize();
 
 canvas.addEventListener('click', function(event) {
     var x = event.pageX - canvas.offsetLeft;
@@ -241,7 +240,11 @@ canvas.addEventListener('click', function(event) {
         else {
             SetObject(cell[0], cell[1]);
         }       
+        
     }
-
     DrawBoard();
 }, false);
+window.onclick = function(){
+    launchIntoFullscreen(document.documentElement);
+}
+Initialize();
