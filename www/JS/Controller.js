@@ -1,9 +1,5 @@
 window.addEventListener("devicemotion", handleMotionEvent, true);
 
-window.onload = function() {
-    window.orientation = -90;
-}
-
 function handleMotionEvent() {
     var y = event.accelerationIncludingGravity.y;
     y = y/2;
