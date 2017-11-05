@@ -1,6 +1,5 @@
 var tex = new Array();
 var size = 6;
-var partSize = 10;
 
 function Object(type, x, y, health, turn, power, weight) {
     this.type = type;
@@ -32,25 +31,25 @@ function CreateObjects() {
     var objects = new Array();
     // health - turn - power - weight
     objects.push(new Object("Core", 0, 0, 100, 3, 2, 5));
-    objects.push(new Object("Engine", 0, 24, 10, 0, 6, 2));
-    objects.push(new Object("Engine", 6, 24, 10, 0, 6, 2));
-    objects.push(new Object("Engine", 12, 24, 10, -3, 10, 3));
-    objects.push(new Object("Engine", 18, 24, 10, -3, 10, 3));
-    objects.push(new Object("Hull", 0, 6, 200, -2, 0, 8));
-    objects.push(new Object("Hull", 6, 6, 200, -2, 0, 8));
-    objects.push(new Object("Hull", 12, 6, 200,-2, 0, 8));
-    objects.push(new Object("Hull", 18, 6, 150, -1, 0, 6));    
-    objects.push(new Object("Hull", 24, 6, 150, -1, 0, 6));
-    objects.push(new Object("Hull", 30, 6, 150, -1, 0, 6));
-    objects.push(new Object("Wing", 0, 12, 20, 9, 0, 2));
-    objects.push(new Object("Wing", 6, 12, 30, 10, 0, 3));
-    objects.push(new Object("Wing", 12, 12, 10, 8, 0, 1)); 
-    objects.push(new Object("Weapons", 0, 18, 0, -4, 0, 3)); 
-    objects.push(new Object("Weapons", 6, 18, 0, -4, 0, 3)); 
-    objects.push(new Object("Weapons", 12, 18, 0, -4, 0, 3)); 
-    objects.push(new Object("Weapons", 18, 18, 0, -4, 0, 3)); 
-    objects.push(new Object("Weapons", 24, 18, 0, -4, 0, 3)); 
-    objects.push(new Object("Weapons", 30, 18, 0, -4, 0, 3));  
+    objects.push(new Object("Engine", 0, 4, 10, 0, 6, 2));
+    objects.push(new Object("Engine", 1, 4, 10, 0, 6, 2));
+    objects.push(new Object("Engine", 2, 4, 10, -3, 10, 3));
+    objects.push(new Object("Engine", 3, 4, 10, -3, 10, 3));
+    objects.push(new Object("Hull", 0, 1, 200, -2, 0, 8));
+    objects.push(new Object("Hull", 1, 1, 200, -2, 0, 8));
+    objects.push(new Object("Hull", 2, 1, 200,-2, 0, 8));
+    objects.push(new Object("Hull", 3, 1, 150, -1, 0, 6));    
+    objects.push(new Object("Hull", 4, 1, 150, -1, 0, 6));
+    objects.push(new Object("Hull", 5, 1, 150, -1, 0, 6));
+    objects.push(new Object("Wing", 0, 2, 20, 9, 0, 2));
+    objects.push(new Object("Wing", 1, 2, 30, 10, 0, 3));
+    objects.push(new Object("Wing", 2, 2, 10, 8, 0, 1)); 
+    objects.push(new Object("Weapons", 0, 3, 0, -4, 0, 3)); 
+    objects.push(new Object("Weapons", 1, 3, 0, -4, 0, 3)); 
+    objects.push(new Object("Weapons", 1, 3, 0, -4, 0, 3)); 
+    objects.push(new Object("Weapons", 3, 3, 0, -4, 0, 3)); 
+    objects.push(new Object("Weapons", 4, 3, 0, -4, 0, 3)); 
+    objects.push(new Object("Weapons", 5, 3, 0, -4, 0, 3));  
     return objects;
 }
 

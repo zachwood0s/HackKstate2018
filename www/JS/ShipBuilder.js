@@ -39,15 +39,15 @@ function Initialize() {
     }
 
     parts.src = "Sprites/parts.png";
+    selectedObj = "0001";
     SetObject(Math.floor(board.width / 2), Math.floor(board.height / 2))
     selectedObj = "1001";    
-    SetType(4);    
+    SetType(1);    
     parts.onload = DrawBoard;
 }
 
 // Draw the building board
-function DrawBoard() {
-    
+function DrawBoard() {  
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     var sec = canvas.height / board.height;
     var start = (canvas.width - sec * 4) / 4;
@@ -118,8 +118,7 @@ function FindCellTouched(x, y) {
         for(var j = 0; j < board.height; j++) {  
             var rx = sec * i + start;
             var ry = sec * j;
-            if(x > rx && x < rx + dim && y > ry && y < ry + dim && board.tex[i][j] != "" && 
-                (i != Math.floor(board.width/2) || j != Math.floor(board.height/2))) {
+            if(x > rx && x < rx + dim && y > ry && y < ry + dim && board.tex[i][j] != "") {
                 lastTex[0] = i;
                 lastTex[1] = j;
                 return [i,j];
@@ -171,18 +170,19 @@ function CreatePartGUI() {
 //Rotates selected object
 function RotateObj() {
     delet = false;
-    if(lastTex[0] != Math.floor(board.width/2) || lastTex[1] != Math.floor(board.height/2)){
-        console.log(Math.floor(board.tex.width/2))
-        var newRot = selectedObj[2];
-        if(newRot < 3) {
-            newRot++;
+    if(board.tex[lastTex[0]][lastTex[1]][0] != 4) {
+        if(lastTex[0] != Math.floor(board.width/2) || lastTex[1] != Math.floor(board.height/2)){
+            var newRot = selectedObj[2];
+            if(newRot < 3) {
+                newRot++;
+            }
+            else {
+                newRot = 0;
+            }  
+            selectedObj = selectedObj.substr(0,2) + newRot + selectedObj.substr(3, selectedObj.length - 3);
+            SetObject(lastTex[0], lastTex[1]);
+            DrawBoard();
         }
-        else {
-            newRot = 0;
-        }  
-        selectedObj = selectedObj.substr(0,2) + newRot + selectedObj.substr(3, selectedObj.length - 3);
-        SetObject(lastTex[0], lastTex[1]);
-        DrawBoard();
     }
 }
 
@@ -209,6 +209,8 @@ function Confirm() {
     document.getElementById('Controller').style.display = "block";
 }
 
+
+
 canvas.addEventListener('click', function(event) {
     var x = event.pageX - canvas.offsetLeft;
     var y = event.pageY - canvas.offsetTop;
@@ -217,26 +219,44 @@ canvas.addEventListener('click', function(event) {
     if(cell != null) {
         var r = cell[0];
         var c = cell[1];
-        if(delet && !(board.tex[r + 1][c].length > 1 && board.tex[r - 1][c].length > 1
-            && board.tex[r][c + 1].length > 1 && board.tex[r][c - 1].length > 1)) {
-            board.tex[r][c] = "o";
-            if(board.tex[r + 1][c] == "o") {
-                board.tex[r + 1][c] = "";
-            }
-            if(board.tex[r - 1][c] == "o") {
-                board.tex[r - 1][c] = "";
-            }
-            if(board.tex[r][c + 1] == "o") {
-                board.tex[r][c + 1] = "";
-            }
-            if(board.tex[r][c - 1] == "o") {
-                board.tex[r][c - 1] = "";
-            }
+        if(r == 2 && c == 2) {  //reset
+            Initialize();
         }
-        else {
-            SetObject(cell[0], cell[1]);
-        }       
-        
+        else {  // Delete
+            var count = 0;
+            if(r < board.width - 1 && board.tex[r + 1][c].length > 1)
+                count++;
+            if(r > 0 && board.tex[r - 1][c].length > 1)
+                count++;
+            if(c > 0 && board.tex[r][c - 1].length > 1)
+                count++;
+            if(c < board.width - 1 && board.tex[r][c + 1].length > 1)
+                count++;
+            if(delet && count < 2 && board.tex[r][c].length > 1) {
+                board.tex[r][c] = "o";
+                if(r < board.width - 1 && board.tex[r + 1][c].length < 2)
+                    board.tex[r + 1][c] = "";
+                if(r > 0 && board.tex[r - 1][c].length < 2)
+                    board.tex[r - 1][c] = "";
+                if(c < board.width - 1 && board.tex[r][c + 1].length < 2)
+                    board.tex[r][c + 1] = "";
+                if(c > 0 && board.tex[r][c - 1].length < 2)
+                    board.tex[r][c - 1] = "";
+                for(var i = 0; i < board.tex.length; i++) {
+                    for(var j = 0; j < board.tex[i].length; j++) {
+                        if(board.tex[i][j].length > 1){
+                            SetSurroundings(i + 1, j);
+                            SetSurroundings(i - 1, j);
+                            SetSurroundings(i, j + 1);
+                            SetSurroundings(i, j - 1);
+                        }
+                    }
+                }
+            }
+            else {  // set object
+                SetObject(cell[0], cell[1]);
+            }  
+        }     
     }
     DrawBoard();
 }, false);
