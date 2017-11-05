@@ -170,18 +170,19 @@ function CreatePartGUI() {
 //Rotates selected object
 function RotateObj() {
     delet = false;
-    if(lastTex[0] != Math.floor(board.width/2) || lastTex[1] != Math.floor(board.height/2)){
-        console.log(Math.floor(board.tex.width/2))
-        var newRot = selectedObj[2];
-        if(newRot < 3) {
-            newRot++;
+    if(board.tex[lastTex[0]][lastTex[1]][0] != 4) {
+        if(lastTex[0] != Math.floor(board.width/2) || lastTex[1] != Math.floor(board.height/2)){
+            var newRot = selectedObj[2];
+            if(newRot < 3) {
+                newRot++;
+            }
+            else {
+                newRot = 0;
+            }  
+            selectedObj = selectedObj.substr(0,2) + newRot + selectedObj.substr(3, selectedObj.length - 3);
+            SetObject(lastTex[0], lastTex[1]);
+            DrawBoard();
         }
-        else {
-            newRot = 0;
-        }  
-        selectedObj = selectedObj.substr(0,2) + newRot + selectedObj.substr(3, selectedObj.length - 3);
-        SetObject(lastTex[0], lastTex[1]);
-        DrawBoard();
     }
 }
 
