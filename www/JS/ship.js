@@ -100,7 +100,7 @@ function ship(X, Y, TEX) {
   }
   this.Left = function() {
     console.log("Left");
-    Body.setAngle(this.shipCompoundBody, this.shipCompoundBody.angle - .2);
+    
   }
   this.Right = function() {
     console.log("Right");
