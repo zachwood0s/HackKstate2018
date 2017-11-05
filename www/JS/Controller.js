@@ -7,7 +7,7 @@ window.ondevicemotion = function(event) {
       arAlpha = Math.round(rotation.alpha);
       arBeta = Math.round(rotation.beta);
       arGamma = Math.round(rotation.gamma);
-      document.write(rotation.alpha + ", " + rotation.arBeta + ", " + rotation.gamma);
+      //document.write(rotation.alpha + ", " + rotation.arBeta + ", " + rotation.gamma);
     }   
 }
 
