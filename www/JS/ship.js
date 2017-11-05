@@ -1,6 +1,6 @@
 function ship(X, Y, TEX) {
+  this.uid;
   this.shipContainer = new PIXI.Container();
-  app.stage.addChild(this.shipContainer);
 
   this.shipCompoundBody;
 
@@ -20,10 +20,11 @@ function ship(X, Y, TEX) {
   }
   /*
   this.allParts[0][0] = TEX;
+  */
   this.allParts[2][1] = TEX;
   this.allParts[2][2] = TEX;
   this.allParts[2][3] = TEX;
-  */
+
   var boxes = [];
 
   for(var index1 = 0; index1<5;index1++){
@@ -49,7 +50,7 @@ function ship(X, Y, TEX) {
   var partB = boxes[1];
 
   this.shipCompoundBody = Body.create({
-    parts: [partA, partB],
+    parts: boxes,
     frictionAir: .05,
     mass: 5,
     //xOffset: 15,//this.shipContainer.width / 2,
@@ -79,6 +80,7 @@ function ship(X, Y, TEX) {
     this.shipContainer.y = yPos//-this.shipContainer.height/2;
 
     this.shipContainer.rotation = this.shipCompoundBody.angle;
+    return this.shipContainer;
   }
 
   this.Forward = function() {

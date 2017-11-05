@@ -9,6 +9,7 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/pixi.js/4.5.1/pixi.min.js"></script>
   <script src="JS/matter.js" type="text/javascript"></script>
   <script src="JS/ship.js" type="text/javascript"></script>
+  <script src="JS/ShipBuilder.js" type="text/javascript"></script>
 <body>
   <script type="text/javascript">
     var Engine = Matter.Engine,
@@ -42,7 +43,15 @@
 
     engine.world.gravity.y = 0;
 
-    things.push(new ship(200, 200, allTextures[0][0]));
+    //var shipCreator = new CreateShip(6);
+    this.addShip = function(CreateShipFromSomewhere) {
+      var parts = CreateShipFromSomewhere.parts;
+      for(var curPartsIndex = 0; curPartsIndex < parts.length; curPartsIndex++) {
+        var selectedPart = parts[curPartsIndex];
+      }
+    }
+
+    //things.push(new ship(200, 200, allTextures[0][0]));
 
     var rect = Bodies.rectangle(100,100,50,50, {isStatic: true});
     World.add(world, rect);

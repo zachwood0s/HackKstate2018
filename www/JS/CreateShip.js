@@ -1,5 +1,3 @@
-var tex = new Array();
-var size = 6;
 
 function Object(type, x, y, health, turn, power, weight) {
     this.type = type;
@@ -38,22 +36,22 @@ function CreateObjects() {
     objects.push(new Object("Hull", 0, 1, 200, -2, 0, 8));
     objects.push(new Object("Hull", 1, 1, 200, -2, 0, 8));
     objects.push(new Object("Hull", 2, 1, 200,-2, 0, 8));
-    objects.push(new Object("Hull", 3, 1, 150, -1, 0, 6));    
+    objects.push(new Object("Hull", 3, 1, 150, -1, 0, 6));
     objects.push(new Object("Hull", 4, 1, 150, -1, 0, 6));
     objects.push(new Object("Hull", 5, 1, 150, -1, 0, 6));
     objects.push(new Object("Wing", 0, 2, 20, 9, 0, 2));
     objects.push(new Object("Wing", 1, 2, 30, 10, 0, 3));
     objects.push(new Object("Wing", 2, 2, 10, 8, 0, 1)); 
-    objects.push(new Object("Weapons", 0, 3, 0, -4, 0, 3)); 
-    objects.push(new Object("Weapons", 1, 3, 0, -4, 0, 3)); 
-    objects.push(new Object("Weapons", 1, 3, 0, -4, 0, 3)); 
-    objects.push(new Object("Weapons", 3, 3, 0, -4, 0, 3)); 
-    objects.push(new Object("Weapons", 4, 3, 0, -4, 0, 3)); 
-    objects.push(new Object("Weapons", 5, 3, 0, -4, 0, 3));  
+    objects.push(new Object("Weapons", 0, 3, 0, -4, 0, 3));
+    objects.push(new Object("Weapons", 1, 3, 0, -4, 0, 3));
+    objects.push(new Object("Weapons", 1, 3, 0, -4, 0, 3));
+    objects.push(new Object("Weapons", 3, 3, 0, -4, 0, 3));
+    objects.push(new Object("Weapons", 4, 3, 0, -4, 0, 3));
+    objects.push(new Object("Weapons", 5, 3, 0, -4, 0, 3));
     return objects;
 }
 
-function CreateShip(pSize){
+function CreateShip(pSize, tex){
     var objects = CreateObjects();
     var ship = new ShipBlue();
     for(var i = 0; i < tex.length; i++) {
@@ -62,7 +60,7 @@ function CreateShip(pSize){
             var x = tex[i][j][1]*size;
             var rot = tex[i][j][2];
             var mir = tex[i][j].substr(3, tex[i][j].length - 3);
-            for(var z = 0; z < objects.length; z++) {           
+            for(var z = 0; z < objects.length; z++) {
                 if(objects[z].x == x && objects[z].y == y) {
                     var part = new Part(i*pSize, j*pSize, rot, mir, objects[z]);
                     ship.power += objects[z].power;
@@ -70,7 +68,7 @@ function CreateShip(pSize){
                     ship.turn += objects[z].turn;
                     ship.weight += objects[z].weight;
                     ship.parts.push(part);
-                }   
+                }
             }
         }
     }
