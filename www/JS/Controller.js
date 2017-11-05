@@ -1,14 +1,15 @@
-window.ondevicemotion = function(event) {
-    ax = event.accelerationIncludingGravity.x
-    ay = event.accelerationIncludingGravity.y
-    az = event.accelerationIncludingGravity.z
-    rotation = event.rotationRate;
-    if (rotation != null) {
-      arAlpha = Math.round(rotation.alpha);
-      arBeta = Math.round(rotation.beta);
-      arGamma = Math.round(rotation.gamma);
-      document.write(rotation.alpha + ", " + rotation.arBeta + ", " + rotation.gamma);
-    }   
+window.addEventListener("devicemotion", handleMotionEvent, true);
+
+window.onload = function() {
+    window.orientation = -90;
+}
+
+function handleMotionEvent() {
+    var y = event.accelerationIncludingGravity.y;
+    y = y/2;
+    if(y > 1)
+        y = 1;
+    y = Math.round(y *10) /10;
 }
 
 // Find the right method, call on correct element
