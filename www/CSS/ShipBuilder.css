@@ -1,23 +1,44 @@
+/*
+yellow 244 181 68
+magen242 35 241
+33 61 183
+*/
+body{
+    background: url("../Sprites/Backgrounds/ScanLineTile.png");
+    background-size:62px 62px;
+    image-rendering: pixelated;
+    overflow: hidden;
+}
 canvas {
+
     image-rendering: pixelated;
 }
 .SideMenu {
+    box-sizing:border-box;
+    height:100%;
+    position:absolute;
     text-align: center;
-    width: 18%;
+    width: 200px;
     border-style: solid;
-    border-width: 4px;
-    border-color: blue;
+    border-width: 10px;
+    border-color: rgb(33, 61, 183);
+    overflow: auto;
 }
 
 button {
+    background:transparent;
+    margin:5px;
+    border:none;
     overflow: hidden;
     position: relative;
     width: 40%;
-    padding-top: 40%; 
 }
 
-.ButtonTypes {
+#TypeSelection .ButtonTypes {
     padding: 0;
+    margin:10px 30px;
+    width:130px;
+    height:130px;
 }
 
 .TypeImg {
@@ -31,14 +52,26 @@ img {
     image-rendering: pixelated;
 }
 
+#PartSelection button{
+    margin:10px 30px;
+    width:130px;
+    height:130px;
+}
 #PartSelection {
-    height: 98%;
+    border-left:none;
+    border-top:none;
+    border-bottom:none;
+    height: 100%;
     position: absolute;
     left: 0;
     top: 0;
 }
 
 #TypeSelection {
+    border-top:none;
+    border-bottom:none;
+    border-right:none;
+    width:240px;
     height: 70%;
     position: absolute;
     right: 0;
@@ -46,8 +79,31 @@ img {
 }
 
 #Rbuttons {
-    height: 28%;
+    width:240px;
+    border-top:none;
+    border-bottom:none;
+    border-right:none;
+    height: 30%;
     position: absolute;
     right: 0;
+    overflow:visible;
     bottom: 0;
 }
+
+#Rbuttons:before, #Rbuttons:after{
+    content:"";
+    background:rgb(33, 61, 183);
+    position: absolute;
+    width:30px;
+    height:10px;
+    top:45%;
+    left:0;
+}
+#Rbuttons:after{
+    top:-36px;;
+}
+#Delete{
+    width:30%;
+    margin-top:50px;
+}
+

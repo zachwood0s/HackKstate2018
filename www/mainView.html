@@ -1,0 +1,90 @@
+
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>PC Window</title>
+  <link rel="stylesheet" href="CSS/mainViewStyle.css">
+</head>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pixi.js/4.5.1/pixi.min.js"></script>
+  <script src="JS/matter.js" type="text/javascript"></script>
+  <script src="JS/ship.js" type="text/javascript"></script>
+<body>
+  <script type="text/javascript">
+    var Engine = Matter.Engine,
+        World = Matter.World,
+        Bodies = Matter.Bodies,
+        Body = Matter.Body;
+
+    var engine;
+    var world;
+
+    var things = [];
+
+    var app = new PIXI.Application(400, 400, {backgroundColor : 0x1099bb});
+      document.body.appendChild(app.view);
+    var shipTexture = PIXI.Texture.fromImage('Sprites/placeholdership.png');
+
+    engine = Engine.create();
+    world = engine.world;
+
+    engine.world.gravity.y = 0;
+
+    things.push(new ship(200, 200, 13, 18, shipTexture));
+    Engine.run(engine);
+
+
+    app.ticker.add(function(delta) {
+      for(index = 0; index < things.length; index++){
+        var selectedThing = things[index];
+        selectedThing.Show();
+      }
+    });
+
+    document.addEventListener('keydown', function(event) {
+      if(event.keyCode == 38) {
+        for(index = 0; index < things.length; index++){
+          var selectedThing = things[index];
+          selectedThing.Forward();
+        }
+      }else if(event.keyCode == 37) {
+        for(index = 0; index < things.length; index++){
+          var selectedThing = things[index];
+          selectedThing.Left();
+        }
+      }else if(event.keyCode == 39) {
+        for(index = 0; index < things.length; index++){
+          var selectedThing = things[index];
+          selectedThing.Right();
+        }
+      }
+
+    });
+    function Vector2D(X, Y){
+      this.x = X;
+      this.y = Y;
+      this.Reduce = function (num){
+
+      };
+      this.CalculateResultant = function(vector2DIn){
+        return new Vector2D(this.x+vector2DIn.x,this.y+vector2DIn.y);
+      };
+      this.Scale = function(scalar){
+        return new Vector2D(this.x * scalar, this.y * scalar);
+      };
+      this.Normalize = function(){
+        if(this.Magnitude() != 0){
+          var pastVec = new Vector2D(this.x, this.y);
+          var normVec = pastVec.Scale(1/this.Magnitude());
+
+          this.x = normVec.x;
+          this.y = normVec.y;
+        }
+      }
+      this.Magnitude = function(){
+        return Math.sqrt((this.x*this.x)+(this.y*this.y));
+      }
+    }
+  </script>
+</body>
+</html>
