@@ -20,9 +20,7 @@ function Part(x, y, rot, mir, object) {
     this.object = object;
 }
 
-function ShipBlue(x, y) {
-    this.x = x;
-    this.y = y;
+function ShipBlue() {
     this.parts = new Array();
     this.power = 0;
     this.health = 0;
@@ -58,7 +56,7 @@ function CreateObjects() {
 
 function CreateShip(pSize){
     var objects = CreateObjects();
-    var ship = new ShipBlue(0,0);
+    var ship = new ShipBlue();
     for(var i = 0; i < tex.length; i++) {
         for(var j = 0; j < tex[i].length; j++) {
             var y = tex[i][j][0]*size;
