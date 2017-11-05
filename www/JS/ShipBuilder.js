@@ -207,6 +207,8 @@ function Delete() {
 function Confirm() {
     document.getElementById('GUI').style.display = "none";
     document.getElementById('Controller').style.display = "block";
+
+    socket.emit("createship", board.tex);
 }
 
 
