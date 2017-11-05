@@ -154,6 +154,9 @@ GamePlayer = function(uid){
 
     this.inputs = [];
 }
+
+
+app.use(express.static(__dirname+'/www'))
 app.get('/', function(req, res){
     res.sendFile(__dirname+'/www/index.html');
 });
@@ -164,7 +167,6 @@ app.get('/screen/', function(req, res){
     res.sendFile(__dirname+"/www/screen.html");
 })
 
-app.use(express.static(__dirname+'/www'))
 
 
 var game = new GameState();
