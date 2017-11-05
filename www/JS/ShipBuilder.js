@@ -16,9 +16,9 @@ var lastTex = [2,2];
 var board = {
     width: 5,
     height: 5,
-    margin: 5,
-    closedC: "#0042FF",
-    openC: "#FFF300",
+    margin: 0,
+    closedC: "rgb(53, 14, 98)",
+    openC: "rgb(242, 35, 241)",
     lineWidth: "1",
     tex: new Array()
 }
@@ -56,16 +56,19 @@ function DrawBoard() {
         for(var j = 0; j < board.height; j++) {  
             if(board.tex[i][j] == "") {
                 ctx.beginPath();
-                ctx.strokeStyle = board.openC;
-                ctx.lineWidth = board.lineWidth;
-                ctx.rect(sec * i + start,sec * j,dim,dim);
+                ctx.fillStyle = board.closedC;
+
+                ctx.fillRect(sec*i + start + dim/3, sec*j + dim/3, dim/3, dim/3);
+                //ctx.lineWidth = board.lineWidth;
+                //ctx.rect(sec * i + start,sec * j,dim,dim);
                 ctx.stroke();
             }    
             else if(board.tex[i][j] == "o") {
                 ctx.beginPath();
-                ctx.strokeStyle = board.closedC;
-                ctx.lineWidth = board.lineWidth;
-                ctx.rect(sec * i + start,sec * j,dim,dim);
+                ctx.fillStyle = board.openC;
+                ctx.fillRect(sec*i + start + dim/3, sec*j + dim/3, dim/3, dim/3);
+                //ctx.lineWidth = board.lineWidth;
+                //ctx.rect(sec * i + start,sec * j,dim,dim);
                 ctx.stroke();
             }
             else { 
