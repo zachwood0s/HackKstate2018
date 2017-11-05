@@ -1,46 +1,44 @@
 var socket = io();
 var app = new PIXI.Application(400, 400, {backgroundColor : 0x1099bb});
   document.body.appendChild(app.view);
+var allPartTextures = ReadSpriteSheet();
 
 var gameState = function(){
-
-    this.ships = [];
-    this.bullets = [];
+    this.shipViews = [];
 }
+
 var game = new gameState();
+
 window.onload=function(){
     socket.emit("pairScreen");
 }
-socket.on("onserverupdate", function(data){=
-    update(data.ships);
+socket.on("onserverupdate", function(ShipViewUpdateArray){
+    for(var indexUpdate = 0; indexUpdate < ShipViewUpdateArray.length;indexUpdate++){
+      var viewUpdate = ShipViewUpdateArray[indexUpdate];
+      for(var indexShipView = 0; indexShipView < game.shipViews.length; indexShipView++){
+        game.shipViews[indexShipView].UpdateCheck(viewUpdate);
+      }
+    }
 });
-socket.on("onplayerdisconnected", function(uid){
-  for(var deleteIndex = 0; deleteIndex < this.ships.length; deleteIndex++){
-    var selectedDeleteShip = this.ships(deleteIndex);
-    if(selectedDeleteShip.uid == uid){
-      app.stage.removeChild(selectedDeleteShip);
+socket.on("onplayerdisconnected", function(ShipViewUpdateDisconnect){
+  for(var indexShipDisconnect = 0; indexShipDisconnect < game.shipViews.length; indexShipDisconnect++){
+    game.shipViews[indexShipDisconnect].DisconectCheck(viewUpdate);
+  }
+
+});
+socket.on("oncreateship", function(newShipViewUpdate){
+  this.shipViews.push(new ShipView(newShipViewUpdate));
+});
+
+function ReadSpriteSheet(){
+  var spriteSheetImage = PIXI.BaseTexture.fromImage("Sprites/parts.png");
+  var allTextures = [];
+  for(var curImgCol = 0; curImgCol < 6; curImgCol++){
+    allTextures.push(new Array());
+    for(var curImgRow = 0; curImgRow < 5; curImgRow++){
+      var rect = new PIXI.Rectangle((curImgCol*6), (curImgRow*6), 6, 6);
+      allTextures[curImgCol].push(new PIXI.Texture(spriteSheetImage, rect));
     }
   }
-});
-
-function update(shipsFromPhysics){
-
-    for(var physicsShipIndex = 0; physicsShipIndex < shipsFromPhysics.length; physicsShipIndex++){
-      var flag = false;
-      var selectedShipFromPhy = shipsFromPhysics[physicsShipIndex];
-      for(var heldShipIndex = 0; heldShipIndex < game.ships.length; heldShipIndex++){
-        var heldShip = game.ships[heldShipIndex];
-        if(heldShip.uid == selectedShipFromPhy.uid){
-          flag = true;
-          heldShip.shipContainer.x = selectedShipFromPhy.shipCompoundBody.position.x;
-          heldShip.shipContainer.y = selectedShipFromPhy.shipCompoundBody.position.y;
-          break;
-        }
-
-        //app.stage.addChild(selectedShipContainer);
-      }
-      if(flag == false){
-        app.stage.addChild(selectedShipFromPhy.shipContainer);
-      }
-    }
+  return allTextures;
 }
