@@ -213,7 +213,7 @@ io.on('connection', function(socket){
             //console.log(p.uid);
             return p.uid == controllerCode;
         });
-        console.log("receiving input from " +controllerCode);
+       // console.log("receiving input from " +controllerCode);
         if(player != undefined){
             player.inputs.push({inputs:input, time:inputTime, seq:inputSeq});
         }
