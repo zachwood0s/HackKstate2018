@@ -23,10 +23,10 @@ function launchIntoFullscreen(element) {
 
 function Go() {
     alert("go");
-    launchIntoFullscreen(document.documentElement);
+    //launchIntoFullscreen(document.documentElement);
 }
 
 function Fire() {
     alert("fire")
-    launchIntoFullscreen(document.documentElement);
+    //launchIntoFullscreen(document.documentElement);
 }

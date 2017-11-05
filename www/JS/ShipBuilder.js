@@ -203,6 +203,11 @@ function Delete() {
     delet = true;
 }
 
+// Comfirm
+function Confirm() {
+    document.getElementById('GUI').style.display = "none";
+    document.getElementById('Controller').style.display = "block";
+}
 
 window.onload = function(){
     Initialize();
