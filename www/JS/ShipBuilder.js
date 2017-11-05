@@ -1,7 +1,6 @@
 var canvas = document.getElementById("canvas");
 var ctx = canvas.getContext('2d');
 
-
 var xp = 0;
 var xpI = 100;
 
@@ -208,7 +207,6 @@ canvas.addEventListener('click', function(event) {
     var y = event.pageY - canvas.offsetTop;
     
     var cell = FindCellTouched(x, y);
-    console.log(cell)
     if(cell != null)
         SetObject(cell[0], cell[1]);
     DrawBoard();

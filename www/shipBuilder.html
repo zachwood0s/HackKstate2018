@@ -10,7 +10,7 @@
 </head>
 <body>
 
-<div id = "GUI" style = "display: none">
+<div id = "GUI" style = "display: block">
     <div id = "PartSelection" class = "SideMenu">
     </div>
 
@@ -44,13 +44,14 @@
     </div>
 </div>
 
-<div id = "Controller" style = "display: block">
+<div id = "Controller" style = "display: none">
         <div class = "cont" onclick="Go()" style="width: 50%; height: 100%; float: left;"></div> 
         <div class = "cont" onclick="Fire()" style="width: 50%; height: 100%; float: right;"></div> 
 </div>
 
 <script src="JS/ShipBuilder.js"></script>
 <script src="JS/Controller.js"></script>
+<script src="JS/CreateShip.js"></script>
 <script src="/socket.io/socket.io.js"></script>
 <script>
     (function(){
