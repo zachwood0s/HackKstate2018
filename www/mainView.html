@@ -1,0 +1,98 @@
+
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>PC Window</title>
+  <link rel="stylesheet" href="CSS/mainViewStyle.css">
+</head>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pixi.js/4.5.1/pixi.min.js"></script>
+  <script src="JS/matter.js" type="text/javascript"></script>
+  <script src="JS/ship.js" type="text/javascript"></script>
+<body>
+  <script type="text/javascript">
+    var Engine = Matter.Engine,
+        World = Matter.World,
+        Bodies = Matter.Bodies,
+        Body = Matter.Body;
+
+    var engine;
+    var world;
+    var box1;
+
+    var app = new PIXI.Application(400, 400, {backgroundColor : 0x1099bb});
+      document.body.appendChild(app.view);
+    var ship = PIXI.Sprite.fromImage('Sprites/placeholdership.png')
+    var block = PIXI.Sprite.fromImage('Sprites/blacksquare.png')
+
+    ship.anchor.set(0.5);
+    block.anchor.set(0.5);
+    app.stage.addChild(ship);
+    app.stage.addChild(block);
+
+    engine = Engine.create();
+    world = engine.world;
+
+    box1 = Bodies.rectangle(200,100, 13,18, { frictionAir: 0.1, chamfer: { radius: [4,0,4]}});
+    box2 = Bodies.rectangle(100, 100, 32, 32, {isStatic: true, chamfer: { radius: [4,0,4]}});
+
+    Body.setMass(box1, 10);
+    engine.world.gravity.y = 0;
+    World.add(world, box1);
+    World.add(world, box2);
+    Engine.run(engine);
+
+
+    app.ticker.add(function(delta) {
+      ship.x = box1.position.x;
+      ship.y = box1.position.y;
+      ship.rotation = box1.angle;
+      block.x = box2.position.x;
+      block.y = box2.position.y;
+    });
+
+    document.addEventListener('keydown', function(event) {
+      if(event.keyCode == 38) {
+        var magn = .05;
+        var angle = box1.angle;
+        var adjacent = Math.cos(angle) * magn;
+        var opposite = -1*Math.sin(angle) * magn;
+        var createdVector = new Vector2D(opposite, adjacent);
+        createdVector = createdVector.Scale(-1);
+        Body.applyForce(box1, box1.position, { x: createdVector.x, y: createdVector.y});
+
+      }else if(event.keyCode == 37) {
+        Body.setAngle(box1, box1.angle-.2);
+      }else if(event.keyCode == 39) {
+        Body.setAngle(box1, box1.angle+.2);
+      }
+
+    });
+    function Vector2D(X, Y){
+      this.x = X;
+      this.y = Y;
+      this.Reduce = function (num){
+
+      };
+      this.CalculateResultant = function(vector2DIn){
+        return new Vector2D(this.x+vector2DIn.x,this.y+vector2DIn.y);
+      };
+      this.Scale = function(scalar){
+        return new Vector2D(this.x * scalar, this.y * scalar);
+      };
+      this.Normalize = function(){
+        if(this.Magnitude() != 0){
+          var pastVec = new Vector2D(this.x, this.y);
+          var normVec = pastVec.Scale(1/this.Magnitude());
+
+          this.x = normVec.x;
+          this.y = normVec.y;
+        }
+      }
+      this.Magnitude = function(){
+        return Math.sqrt((this.x*this.x)+(this.y*this.y));
+      }
+    }
+  </script>
+</body>
+</html>
