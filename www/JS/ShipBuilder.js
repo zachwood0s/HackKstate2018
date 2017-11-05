@@ -25,11 +25,6 @@ var board = {
 
 // Initialize Starting Variables
 function Initialize() {
-    canvas.width  = (window.innerWidth / 5) * 3;
-    canvas.height = window.innerHeight; 
-    canvas.style.width  = canvas.width;
-    canvas.style.height = canvas.height;
-
     // Initialize board array
     for(var i = 0; i < board.width; i++) {
         board.tex[i] = new Array();
@@ -263,4 +258,10 @@ canvas.addEventListener('click', function(event) {
 window.onclick = function(){
     launchIntoFullscreen(document.documentElement);
 }
+
+// Initialize
+canvas.width  = (window.innerWidth / 5) * 3;
+canvas.height = window.innerHeight; 
+canvas.style.width  = canvas.width;
+canvas.style.height = canvas.height;
 Initialize();
