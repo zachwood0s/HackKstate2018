@@ -18,53 +18,45 @@
 
     var engine;
     var world;
-    var box1;
+
+    var things = [];
 
     var app = new PIXI.Application(400, 400, {backgroundColor : 0x1099bb});
       document.body.appendChild(app.view);
-    var ship = PIXI.Sprite.fromImage('Sprites/placeholdership.png')
-    var block = PIXI.Sprite.fromImage('Sprites/blacksquare.png')
-
-    ship.anchor.set(0.5);
-    block.anchor.set(0.5);
-    app.stage.addChild(ship);
-    app.stage.addChild(block);
+    var shipTexture = PIXI.Texture.fromImage('Sprites/placeholdership.png');
 
     engine = Engine.create();
     world = engine.world;
 
-    box1 = Bodies.rectangle(200,100, 13,18, { frictionAir: 0.1, chamfer: { radius: [4,0,4]}});
-    box2 = Bodies.rectangle(100, 100, 32, 32, {isStatic: true, chamfer: { radius: [4,0,4]}});
-
-    Body.setMass(box1, 10);
     engine.world.gravity.y = 0;
-    World.add(world, box1);
-    World.add(world, box2);
+
+    things.push(new ship(200, 200, 13, 18, shipTexture));
     Engine.run(engine);
 
 
     app.ticker.add(function(delta) {
-      ship.x = box1.position.x;
-      ship.y = box1.position.y;
-      ship.rotation = box1.angle;
-      block.x = box2.position.x;
-      block.y = box2.position.y;
+      for(index = 0; index < things.length; index++){
+        var selectedThing = things[index];
+        selectedThing.Show();
+      }
     });
 
     document.addEventListener('keydown', function(event) {
       if(event.keyCode == 38) {
-        var magn = .05;
-        var angle = box1.angle;
-        var adjacent = Math.cos(angle) * magn;
-        var opposite = -1*Math.sin(angle) * magn;
-        var createdVector = new Vector2D(opposite, adjacent);
-        createdVector = createdVector.Scale(-1);
-        Body.applyForce(box1, box1.position, { x: createdVector.x, y: createdVector.y});
-
+        for(index = 0; index < things.length; index++){
+          var selectedThing = things[index];
+          selectedThing.Forward();
+        }
       }else if(event.keyCode == 37) {
-        Body.setAngle(box1, box1.angle-.2);
+        for(index = 0; index < things.length; index++){
+          var selectedThing = things[index];
+          selectedThing.Left();
+        }
       }else if(event.keyCode == 39) {
-        Body.setAngle(box1, box1.angle+.2);
+        for(index = 0; index < things.length; index++){
+          var selectedThing = things[index];
+          selectedThing.Right();
+        }
       }
 
     });
