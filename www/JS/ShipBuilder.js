@@ -1,7 +1,6 @@
 var canvas = document.getElementById("canvas");
 var ctx = canvas.getContext('2d');
 
-
 var xp = 0;
 var xpI = 100;
 
@@ -12,6 +11,7 @@ var typeAmount = 4;
 var selectedType = 0;
 var selectedObj = "0001";
 var lastTex = [2,2];
+var delet = false;
 
 var board = {
     width: 5,
@@ -57,18 +57,13 @@ function DrawBoard() {
             if(board.tex[i][j] == "") {
                 ctx.beginPath();
                 ctx.fillStyle = board.closedC;
-
                 ctx.fillRect(sec*i + start + dim/3, sec*j + dim/3, dim/3, dim/3);
-                //ctx.lineWidth = board.lineWidth;
-                //ctx.rect(sec * i + start,sec * j,dim,dim);
                 ctx.stroke();
             }    
             else if(board.tex[i][j] == "o") {
                 ctx.beginPath();
                 ctx.fillStyle = board.openC;
                 ctx.fillRect(sec*i + start + dim/3, sec*j + dim/3, dim/3, dim/3);
-                //ctx.lineWidth = board.lineWidth;
-                //ctx.rect(sec * i + start,sec * j,dim,dim);
                 ctx.stroke();
             }
             else { 
@@ -135,6 +130,7 @@ function FindCellTouched(x, y) {
 
 // Sets the selected type to type selected in gui
 function SetType(type) {
+    delet = false;
     selectedType = type;
     ResetPartsGUI();    
     CreatePartGUI();
@@ -156,6 +152,7 @@ function CreatePartGUI() {
         var button = document.createElement('button');
         button.id = i;
         button.onclick = function () {
+            delet = false;
             selectedObj = selectedType + "" + this.id + "0" + "-1";
         };
         buttonContainer.appendChild(button);
@@ -173,6 +170,7 @@ function CreatePartGUI() {
 
 //Rotates selected object
 function RotateObj() {
+    delet = false;
     if(lastTex[0] != Math.floor(board.width/2) || lastTex[1] != Math.floor(board.height/2)){
         console.log(Math.floor(board.tex.width/2))
         var newRot = selectedObj[2];
@@ -190,6 +188,7 @@ function RotateObj() {
 
 // Mirror
 function MirrorObj() {
+    delet = false;
     if(lastTex[0] != Math.floor(board.width/2) || lastTex[1] != Math.floor(board.height/2)){
         var mirror = selectedObj.substr(3, selectedObj.length - 3);
         mirror *= -1;
@@ -199,8 +198,16 @@ function MirrorObj() {
     }
 }
 
+// Deletes Object
+function Delete() {
+    delet = true;
+}
 
-
+// Comfirm
+function Confirm() {
+    document.getElementById('GUI').style.display = "none";
+    document.getElementById('Controller').style.display = "block";
+}
 
 window.onload = function(){
     Initialize();
@@ -210,10 +217,31 @@ Initialize();
 canvas.addEventListener('click', function(event) {
     var x = event.pageX - canvas.offsetLeft;
     var y = event.pageY - canvas.offsetTop;
-    
-    var cell = FindCellTouched(x, y);
-    console.log(cell)
-    if(cell != null)
-        SetObject(cell[0], cell[1]);
+
+    var cell = FindCellTouched(x, y);  
+    if(cell != null) {
+        var r = cell[0];
+        var c = cell[1];
+        if(delet && !(board.tex[r + 1][c].length > 1 && board.tex[r - 1][c].length > 1
+            && board.tex[r][c + 1].length > 1 && board.tex[r][c - 1].length > 1)) {
+            board.tex[r][c] = "o";
+            if(board.tex[r + 1][c] == "o") {
+                board.tex[r + 1][c] = "";
+            }
+            if(board.tex[r - 1][c] == "o") {
+                board.tex[r - 1][c] = "";
+            }
+            if(board.tex[r][c + 1] == "o") {
+                board.tex[r][c + 1] = "";
+            }
+            if(board.tex[r][c - 1] == "o") {
+                board.tex[r][c - 1] = "";
+            }
+        }
+        else {
+            SetObject(cell[0], cell[1]);
+        }       
+    }
+
     DrawBoard();
 }, false);

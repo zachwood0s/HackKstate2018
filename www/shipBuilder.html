@@ -41,10 +41,12 @@
         <button onclick="MirrorObj()" class="ButtonTypes"> 
             <img src="Sprites/Buttons/MirrorButton.png" id = "Mirror" class="TypeImg">
         </button>
-        <button onclick = "" class="ButtonTypes" id="Delete">
+        <button onclick = "Delete()" class="ButtonTypes" id="Delete">
             <img src="Sprites/buttons/DeleteButton.png" class="TypeImg"> 
         </button>
-
+        <button onclick = "Confirm()" class="ButtonTypes" id="Delete">
+            <img src="Sprites/buttons/DeleteButton.png" class="TypeImg"> 
+        </button>
     </div>
 </div>
 
@@ -55,6 +57,7 @@
 
 <script src="JS/ShipBuilder.js"></script>
 <script src="JS/Controller.js"></script>
+<script src="JS/CreateShip.js"></script>
 <script src="/socket.io/socket.io.js"></script>
 <script>
     (function(){
