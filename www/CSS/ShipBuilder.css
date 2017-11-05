@@ -32,7 +32,6 @@ button {
     overflow: hidden;
     position: relative;
     width: 40%;
-    padding-top: 40%; 
 }
 
 #TypeSelection .ButtonTypes {
@@ -87,5 +86,24 @@ img {
     height: 30%;
     position: absolute;
     right: 0;
+    overflow:visible;
     bottom: 0;
 }
+
+#Rbuttons:before, #Rbuttons:after{
+    content:"";
+    background:rgb(33, 61, 183);
+    position: absolute;
+    width:30px;
+    height:10px;
+    top:45%;
+    left:0;
+}
+#Rbuttons:after{
+    top:-36px;;
+}
+#Delete{
+    width:30%;
+    margin-top:50px;
+}
+

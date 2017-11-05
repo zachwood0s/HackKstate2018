@@ -17,8 +17,8 @@ var board = {
     width: 5,
     height: 5,
     margin: 0,
-    closedC: "rgb(53, 14, 98)",
-    openC: "rgb(242, 35, 241)",
+    closedC: "rgb(2,47,75)",
+    openC: "rgb(15, 252, 245)",
     lineWidth: "1",
     tex: new Array()
 }
