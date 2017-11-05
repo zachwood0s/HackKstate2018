@@ -212,6 +212,7 @@ function Confirm() {
 window.onload = function(){
     Initialize();
 };
+Initialize();
 
 canvas.addEventListener('click', function(event) {
     var x = event.pageX - canvas.offsetLeft;
