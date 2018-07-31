@@ -8,7 +8,7 @@ NeoLux utilizes Node.js and WebSockets to sync data between players' phones and 
 
 ## Playing the Game
 
-A running server for the game can be found with [this link](http://spacegame-hackkstate2018.7e14.starter-us-west-2.openshiftapps.com/). The game will begin by asking if you want to be a screen or a controller. Controllers are required to be a mobile device with gyroscopic capabilities. The screen is the place where all ships can be viewed. If controller is chosen, a ship editor will open. Here you have the ability to customize your ship with various pieces. 
+A running server for the game can be found with ~~[this link](http://spacegame-hackkstate2018.7e14.starter-us-west-2.openshiftapps.com/)~~  (not any more). The game will begin by asking if you want to be a screen or a controller. Controllers are required to be a mobile device with gyroscopic capabilities. The screen is the place where all ships can be viewed. If controller is chosen, a ship editor will open. Here you have the ability to customize your ship with various pieces. 
 
 ### Ship Pieces
 
